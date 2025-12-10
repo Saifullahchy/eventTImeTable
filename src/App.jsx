@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useEffect, useState } from 'react'
 import './App.css'
 
@@ -56,12 +55,10 @@ function App() {
             <div
               className={`flex-1 relative overflow-x-auto ${hasScrolled ? 'overflow-x-hidden' : ''}`}
             >
-           
               <div className={hasScrolled ? 'hidden' : 'block'} style={{ width: totalWidth }}>
                 <VenueHeader />
               </div>
 
-              {/* sticky header, only visible after scroll */}
               <div
                 className={
                   'sticky top-0 z-50 bg-white border-b border-gray-200 ' +
@@ -72,7 +69,6 @@ function App() {
                 <VenueHeader />
               </div>
 
-              {/* grid + events */}
               <VenueDetails events={dayEvents} />
             </div>
           </div>

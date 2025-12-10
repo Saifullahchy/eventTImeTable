@@ -1,4 +1,3 @@
-// src/components/VenueDetails.jsx
 import React from 'react'
 import { VENUE_WIDTH, venues } from '../constants/venues'
 import { START_TIME, END_TIME, STEP_MINUTES, SLOT_HEIGHT, generateTimes } from '../utils/common'
@@ -19,21 +18,17 @@ const pxDuration = (start, end) => {
   const startMins = minutesFromStart(start, START_TIME)
   const endMins = minutesFromStart(end, START_TIME)
 
-  // add one extra 15-minute slot so the card visually reaches the next line
   const diff = endMins - startMins + STEP_MINUTES
 
   return (diff / STEP_MINUTES) * SLOT_HEIGHT
 }
 
-const VenueDetails = ({ events, showStickyHeader }) => {
+const VenueDetails = ({ events }) => {
   const times = generateTimes(START_TIME, END_TIME, STEP_MINUTES)
   const totalWidth = venues.length * VENUE_WIDTH
 
   return (
     <div className="min-w-max relative" style={{ width: totalWidth }}>
-      {/* sticky header only when scrolled */}
-      
-
       <div className="relative">
         {times.map((t) => (
           <div

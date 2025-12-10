@@ -1,4 +1,3 @@
-// src/components/VenueHeader.jsx
 import React from 'react'
 import { VENUE_WIDTH, venues } from '../constants/venues'
 

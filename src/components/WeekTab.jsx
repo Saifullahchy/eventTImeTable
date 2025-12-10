@@ -1,4 +1,3 @@
-// src/components/WeekTab.jsx
 import React, { useRef } from 'react'
 import { days } from '../constants/venues'
 
@@ -15,7 +14,6 @@ const WeekTab = ({ selectedDayId, onSelectDay }) => {
 
   return (
     <div className="relative w-full border-b border-gray-200 group bg-white">
-      {/* Left Arrow */}
       <button
         onClick={scrollLeft}
         className="absolute left-0 top-1/2 -translate-y-1/2 
@@ -25,7 +23,6 @@ const WeekTab = ({ selectedDayId, onSelectDay }) => {
         ‹
       </button>
 
-      {/* Days Container */}
       <div ref={scrollRef} className="w-full overflow-x-auto overflow-y-hidden no-scrollbar">
         <div className="flex flex-row min-w-max">
           {days.map((day) => {
@@ -49,7 +46,6 @@ const WeekTab = ({ selectedDayId, onSelectDay }) => {
         </div>
       </div>
 
-      {/* Right Arrow */}
       <button
         onClick={scrollRight}
         className="absolute right-0 top-1/2 -translate-y-1/2 
