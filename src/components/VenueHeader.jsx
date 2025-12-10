@@ -1,3 +1,4 @@
+// src/components/VenueHeader.jsx
 import React from 'react'
 
 export const VENUE_WIDTH = 400
@@ -11,7 +12,7 @@ export const venues = [
 
 const VenueHeader = () => {
   return (
-    // Sticky inside the vertical scroll container from App.jsx
+    // sticky inside the vertical scroll container (right grey side)
     <div className="sticky top-0 z-50 bg-white">
       <div className="flex min-w-max border-b border-gray-200 h-8">
         {venues.map((venue) => (

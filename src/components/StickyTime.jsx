@@ -1,20 +1,20 @@
+// src/components/StickyTime.jsx
 import React from 'react'
-import { SLOT_HEIGHT, generateTimes, START_TIME, END_TIME, STEP_MINUTES } from '../utils/common'
+import { START_TIME, END_TIME, STEP_MINUTES, SLOT_HEIGHT, generateTimes } from '../utils/common'
 
-
-
-const StickyTime = () => {
+const StickyTime = ({ onWheel }) => {
   const times = generateTimes(START_TIME, END_TIME, STEP_MINUTES)
 
   return (
-    <div className="sticky left-0 top-0 z-20 bg-white border-r border-gray-200">
-      {/* header spacer: same height as VenueHeader row (h-8) */}
+    // fixed width column, no sticky, sends wheel to parent via onWheel
+    <div className="shrink-0 bg-white border-r border-gray-200" onWheel={onWheel}>
+      {/* header spacer, matches VenueHeader height */}
       <div className="h-8 border-b border-gray-200" />
 
       {times.map((time) => (
         <div
           key={time}
-          className="flex items-start justify-end pr-2 text-[10px] text-gray-500 border-b border-gray-100"
+          className="flex items-center justify-center px-6 text-[10px] text-gray-500 border-b border-gray-100"
           style={{ height: SLOT_HEIGHT }}
         >
           {time}

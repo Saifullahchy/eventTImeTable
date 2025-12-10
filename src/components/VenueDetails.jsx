@@ -1,6 +1,6 @@
 import React from 'react'
 import { VENUE_WIDTH, venues } from './VenueHeader'
-import { SLOT_HEIGHT, START_TIME, END_TIME, STEP_MINUTES, generateTimes } from '../utils/common'
+import { START_TIME, STEP_MINUTES, SLOT_HEIGHT, generateTimes, END_TIME } from '../utils/common'
 
 const minutesFromStart = (time, start) => {
   const [h, m] = time.split(':').map(Number)
@@ -18,35 +18,28 @@ const pxDuration = (start, end) => {
   return (diff / STEP_MINUTES) * SLOT_HEIGHT
 }
 
-// one sample event
-const sampleEvents = [
+// demo events
+const events = [
   {
     id: 1,
-    venueId: 'v1',
     title: 'Event 1',
+    venueIds: ['v1'],
     start: '09:00',
-    end: '9:30',
+    end: '09:30',
   },
   {
     id: 2,
-    venueId: 'v1',
     title: 'Event 2',
+    venueIds: ['v1', 'v2'],
     start: '10:00',
-    end: '10:30',
+    end: '11:30',
   },
   {
     id: 3,
-    venueId: 'v2',
-    title: 'Event 2',
-    start: '10:00',
-    end: '10:30',
-  },
-  {
-    id: 4,
-    venueId: 'v3',
     title: 'Event 3',
-    start: '9:45',
-    end: '10:45',
+    venueIds: ['v3'],
+    start: '09:45',
+    end: '13:00',
   },
 ]
 
@@ -56,7 +49,6 @@ const VenueDetails = () => {
 
   return (
     <div className="relative min-w-max" style={{ width: totalWidth }}>
-      {/* background time rows */}
       <div className="relative">
         {times.map((t) => (
           <div
@@ -66,27 +58,37 @@ const VenueDetails = () => {
           />
         ))}
 
-        {/* events layer */}
         <div className="absolute inset-0">
-          {sampleEvents.map((evt) => {
-            const venueIndex = venues.findIndex((v) => v.id === evt.venueId)
-            const left = venueIndex * VENUE_WIDTH
+          {events.map((evt) => {
+            const indices = evt.venueIds
+              .map((id) => venues.findIndex((v) => v.id === id))
+              .filter((i) => i >= 0)
+              .sort((a, b) => a - b)
+
+            if (!indices.length) return null
+
+            const firstIndex = indices[0]
+            const lastIndex = indices[indices.length - 1]
+
+            const left = firstIndex * VENUE_WIDTH
+            const width = (lastIndex - firstIndex + 1) * VENUE_WIDTH
+
             const top = pxFromTime(evt.start)
             const height = pxDuration(evt.start, evt.end)
 
             return (
               <div
                 key={evt.id}
-                className="absolute mx-2 rounded bg-gray-300 text-[11px] p-2 shadow-sm"
+                className="absolute border border-black flex justify-center items-center flex-col-reverse bg-gray-300 text-[11px] shadow-sm"
                 style={{
                   left,
                   top,
-                  width: VENUE_WIDTH - 16,
+                  width: width - 16,
                   height,
                 }}
               >
-                <div className="font-semibold">{evt.title}</div>
-                <div>
+                <div className="font-semibold truncate text-center">{evt.title}</div>
+                <div className="text-[10px] text-center">
                   {evt.start} - {evt.end}
                 </div>
               </div>
