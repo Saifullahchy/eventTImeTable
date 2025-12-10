@@ -33,7 +33,6 @@ const WeekTab = () => {
         ‹
       </button>
 
-      {/* Scrollable Container */}
       <div ref={scrollRef} className="w-full overflow-x-auto overflow-y-hidden no-scrollbar">
         <div className="flex flex-row min-w-max">
           {days.map((day) => (
@@ -49,7 +48,6 @@ const WeekTab = () => {
         </div>
       </div>
 
-      {/* Right Arrow */}
       <button
         onClick={scrollRight}
         className="absolute right-0 top-1/2 -translate-y-1/2 

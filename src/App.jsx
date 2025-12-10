@@ -1,5 +1,4 @@
 // src/App.jsx
-import { useRef } from 'react'
 import './App.css'
 
 import WeekTab from './components/WeekTab'
@@ -8,36 +7,22 @@ import VenueDetails from './components/VenueDetails'
 import VenueHeader from './components/VenueHeader'
 
 function App() {
-  const timelineRef = useRef(null)
-
-  // any wheel on children will scroll this container vertically
-  const handleVerticalWheel = (e) => {
-    if (!timelineRef.current) return
-
-    timelineRef.current.scrollTop += e.deltaY
-    e.preventDefault() // stop child from having its own separate scroll
-  }
-
   return (
     <div className="w-full h-screen p-12">
       <div className="h-full flex flex-col border border-gray-200">
         <WeekTab />
 
-        {/* ONE vertical scroll container for time + grey area */}
-        <div
-          ref={timelineRef}
-          className="flex  overflow-y-auto overflow-x-hidden"
-        >
-          {/* time column, no sticky */}
-          <StikcyTime onWheel={handleVerticalWheel} />
+        <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+          <div className="flex flex-1">
+            <div className="shrink-0 w-[80px] border-r border-gray-200">
+              <StikcyTime />
+            </div>
 
-          {/* right grey area, horizontal scroll only, vertical handled by parent */}
-          <div
-            className="flex-1 "
-            onWheel={handleVerticalWheel}
-          >
-            <VenueHeader />
-            <VenueDetails />
+            {/* Grey area: horizontal scroll only, shares vertical scroll with parent */}
+
+            <div className="flex-1 overflow-x-auto relative">
+              <VenueDetails />
+            </div>
           </div>
         </div>
       </div>

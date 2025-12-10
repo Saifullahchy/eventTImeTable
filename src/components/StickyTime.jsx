@@ -2,22 +2,21 @@
 import React from 'react'
 import { START_TIME, END_TIME, STEP_MINUTES, SLOT_HEIGHT, generateTimes } from '../utils/common'
 
-const StickyTime = ({ onWheel }) => {
+const StickyTime = () => {
   const times = generateTimes(START_TIME, END_TIME, STEP_MINUTES)
 
   return (
-    // fixed width column, no sticky, sends wheel to parent via onWheel
-    <div className="shrink-0 bg-white border-r border-gray-200" onWheel={onWheel}>
-      {/* header spacer, matches VenueHeader height */}
+    <div className="bg-white">
+      {/* top spacer, same height as venue header (h-8) */}
       <div className="h-8 border-b border-gray-200" />
 
       {times.map((time) => (
         <div
           key={time}
-          className="flex items-center justify-center px-6 text-[10px] text-gray-500 border-b border-gray-100"
+          className="flex items-start justify-end pr-2 text-[10px] text-gray-500 border-b border-gray-100"
           style={{ height: SLOT_HEIGHT }}
         >
-          {time}
+          <span className="mt-[2px]">{time}</span>
         </div>
       ))}
     </div>
