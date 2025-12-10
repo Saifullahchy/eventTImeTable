@@ -4,7 +4,7 @@ import { VENUE_WIDTH, venues } from '../constants/venues'
 
 const VenueHeader = () => {
   return (
-    <div className="flex min-w-max border-b border-gray-200 h-8">
+    <div className="flex min-w-max bg-gray-100 border-b border-gray-200 h-8">
       {venues.map((venue) => (
         <div
           key={venue.id}

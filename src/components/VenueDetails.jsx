@@ -4,7 +4,6 @@ import { VENUE_WIDTH, venues } from '../constants/venues'
 import { START_TIME, END_TIME, STEP_MINUTES, SLOT_HEIGHT, generateTimes } from '../utils/common'
 import VenueHeader from './VenueHeader'
 
-// helper functions
 const minutesFromStart = (time, start) => {
   const [h, m] = time.split(':').map(Number)
   const [sh, sm] = start.split(':').map(Number)
@@ -17,40 +16,25 @@ const pxFromTime = (time) => {
 }
 
 const pxDuration = (start, end) => {
-  const diff = minutesFromStart(end, START_TIME) - minutesFromStart(start, START_TIME)
+  const startMins = minutesFromStart(start, START_TIME)
+  const endMins = minutesFromStart(end, START_TIME)
+
+  // add one extra 15-minute slot so the card visually reaches the next line
+  const diff = endMins - startMins + STEP_MINUTES
+
   return (diff / STEP_MINUTES) * SLOT_HEIGHT
 }
 
-// demo events
-const events = [
-  { id: 1, title: 'Event 1', venueIds: ['v1'], start: '09:00', end: '09:30' },
-  { id: 2, title: 'Event 2', venueIds: ['v1', 'v2'], start: '10:00', end: '11:30' },
-  { id: 3, title: 'Event 3', venueIds: ['v3'], start: '09:45', end: '13:00' },
-  { id: 4, title: 'Event 4', venueIds: ['v4'], start: '16:45', end: '17:45' },
-]
-
-const VenueDetails = () => {
+const VenueDetails = ({ events, showStickyHeader }) => {
   const times = generateTimes(START_TIME, END_TIME, STEP_MINUTES)
   const totalWidth = venues.length * VENUE_WIDTH
 
   return (
     <div className="min-w-max relative" style={{ width: totalWidth }}>
-      <div
-        className=" right-0 left-0 top-0 z-50 bg-gray-300"
-        style={{
-          position: 'sticky',
-          top: 0,
-          left: 0,
-          right: 0,
-          width: totalWidth,
-        }}
-      >
-        <VenueHeader />
-      </div>
+      {/* sticky header only when scrolled */}
+      
 
-      {/* Grid + events start just under the header (h-8 = 32px) */}
-      <div className="relative mt-8">
-        {/* grid rows */}
+      <div className="relative">
         {times.map((t) => (
           <div
             key={t}
@@ -59,7 +43,6 @@ const VenueDetails = () => {
           />
         ))}
 
-        {/* events */}
         <div className="absolute inset-0">
           {events.map((evt) => {
             const indices = evt.venueIds

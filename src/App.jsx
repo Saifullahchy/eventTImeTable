@@ -1,27 +1,79 @@
 // src/App.jsx
+import { useEffect, useState } from 'react'
 import './App.css'
 
 import WeekTab from './components/WeekTab'
-import StikcyTime from './components/StickyTime'
+import StickyTime from './components/StickyTime'
 import VenueDetails from './components/VenueDetails'
 import VenueHeader from './components/VenueHeader'
+import { venues, VENUE_WIDTH, defaultEvents } from './constants/venues'
 
 function App() {
-  return (
-    <div className="w-full h-screen p-12">
-      <div className="h-full flex flex-col border border-gray-200">
-        <WeekTab />
+  const [selectedDayId, setSelectedDayId] = useState(0)
 
-        <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+  const [events, setEvents] = useState(() => {
+    const saved = localStorage.getItem('events')
+    if (saved) {
+      try {
+        return JSON.parse(saved)
+      } catch {
+        console.error('Error parsing events from localStorage')
+        return defaultEvents
+      }
+    }
+    return defaultEvents
+  })
+
+  useEffect(() => {
+    localStorage.setItem('events', JSON.stringify(events))
+  }, [events])
+
+  const totalWidth = venues.length * VENUE_WIDTH
+  const dayEvents = events.filter((evt) => evt.dayId === selectedDayId)
+
+  // track if user has scrolled down
+  const [hasScrolled, setHasScrolled] = useState(false)
+
+  const handleScroll = (e) => {
+    const top = e.currentTarget.scrollTop
+    setHasScrolled(top > 0)
+  }
+
+  return (
+    <div className="w-full h-screen p-12 bg-gray-50">
+      <div className="h-full flex flex-col border border-gray-200 bg-white rounded-lg overflow-hidden">
+        <WeekTab selectedDayId={selectedDayId} onSelectDay={setSelectedDayId} />
+
+        <div
+          className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden"
+          onScroll={handleScroll}
+        >
           <div className="flex flex-1">
             <div className="shrink-0 w-[80px] border-r border-gray-200">
-              <StikcyTime />
+              <StickyTime />
             </div>
 
-            {/* Grey area: horizontal scroll only, shares vertical scroll with parent */}
+            <div
+              className={`flex-1 relative overflow-x-auto ${hasScrolled ? 'overflow-x-hidden' : ''}`}
+            >
+           
+              <div className={hasScrolled ? 'hidden' : 'block'} style={{ width: totalWidth }}>
+                <VenueHeader />
+              </div>
 
-            <div className="flex-1 overflow-x-auto relative">
-              <VenueDetails />
+              {/* sticky header, only visible after scroll */}
+              <div
+                className={
+                  'sticky top-0 z-50 bg-white border-b border-gray-200 ' +
+                  (hasScrolled ? 'block' : 'hidden')
+                }
+                style={{ width: totalWidth }}
+              >
+                <VenueHeader />
+              </div>
+
+              {/* grid + events */}
+              <VenueDetails events={dayEvents} />
             </div>
           </div>
         </div>

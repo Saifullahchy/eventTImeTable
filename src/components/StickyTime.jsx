@@ -13,7 +13,7 @@ const StickyTime = () => {
       {times.map((time) => (
         <div
           key={time}
-          className="flex items-start justify-end pr-2 text-[10px] text-gray-500 border-b border-gray-100"
+          className="flex items-start justify-center pr-2 text-[10px] text-gray-500 border-b border-gray-100"
           style={{ height: SLOT_HEIGHT }}
         >
           <span className="mt-[2px]">{time}</span>

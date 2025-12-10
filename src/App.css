@@ -5,3 +5,8 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.overflow-x-auto-clip {
+  overflow-x: auto;
+  clip-path: inset(0 0 0 0);
+}
